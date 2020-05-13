@@ -69,12 +69,14 @@
 //! ```
 //!
 //! For details, check the `Request` and `Response` structure documentation.
-pub use http::{get_http, execute};
+pub use http::{get_http, execute as execute_inner};
 #[cfg(feature = "https")]
 pub use https::get_https;
 pub use request::{Header, Request};
 pub use response::{Response, ResponseStatus, StatusCode};
 pub use url::{ToUrl, Url};
+pub use std::io::{Read, Write};
+pub use errors::NanoGetError;
 
 mod url;
 mod http;
@@ -109,6 +111,10 @@ pub fn get<U: ToUrl>(url: U) -> String {
     }
 
     get_http(&url)
+}
+
+pub fn execute<S: Read + Write>(mut stream: S, request: &Request) -> Result<Response, NanoGetError> {
+    return execute_inner(&mut stream, request);
 }
 
 #[cfg(test)]
