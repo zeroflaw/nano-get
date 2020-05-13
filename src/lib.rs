@@ -69,7 +69,7 @@
 //! ```
 //!
 //! For details, check the `Request` and `Response` structure documentation.
-pub use http::get_http;
+pub use http::{get_http, execute};
 #[cfg(feature = "https")]
 pub use https::get_https;
 pub use request::{Header, Request};
